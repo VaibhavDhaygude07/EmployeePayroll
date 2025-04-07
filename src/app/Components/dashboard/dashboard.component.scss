@@ -1,0 +1,97 @@
+.dashboard-container {
+  padding: 24px;
+
+  .app-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    background-color: white;
+
+    .logo {
+      width: 40px;
+      height: 40px;
+    }
+
+    .logo-text {
+      font-family: 'Arial', sans-serif;
+      line-height: 1;
+    }
+
+    .emp-title-green {
+      color: #8bc34a;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .emp-title-dark {
+      color: #4a4a4a;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+
+    h2 {
+      font-weight: 600;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+
+      .search-field {
+        width: 250px;
+        background-color: white;
+        border-radius: 12px;
+      }
+
+      .add-user-btn {
+        border-radius: 12px;
+        background-color: #8bc34a; // Match green tone
+        color: white;
+
+        mat-icon {
+          margin-right: 8px;
+        }
+
+        &:hover {
+          background-color: #7cb342;
+        }
+      }
+    }
+  }
+
+  .employee-table {
+    width: 100%;
+
+    th {
+      background-color: #37474f;
+      color: white;
+      font-weight: 600;
+    }
+
+    .profile-img {
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .badge {
+      background-color: #e6f4ea;
+      color: #388e3c;
+      padding: 4px 10px;
+      border-radius: 12px;
+      margin-right: 5px;
+      font-size: 12px;
+      font-weight: 500;
+      display: inline-block;
+    }
+  }
+}

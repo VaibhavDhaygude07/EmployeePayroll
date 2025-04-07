@@ -1,0 +1,68 @@
+<div class="form-container">
+   
+    <h2>Employee Payroll Form</h2>
+    <form>
+      <mat-form-field appearance="outline" class="full-width">
+        <input matInput placeholder="Name*" [(ngModel)]="employee.name" name="name" required />
+      </mat-form-field>
+  
+      <label class="section-label">Profile image</label>
+      <mat-radio-group class="profile-options" [(ngModel)]="employee.profileImage" name="profileImage">
+       
+      </mat-radio-group>
+  
+      <label class="section-label">Gender</label>
+      <mat-radio-group class="gender-options" [(ngModel)]="employee.gender" name="gender">
+        <mat-radio-button value="Male">Male</mat-radio-button>
+        <mat-radio-button value="Female">Female</mat-radio-button>
+      </mat-radio-group>
+  
+      <label class="section-label">Department</label>
+      <div class="dept-options">
+        
+      </div>
+  
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Salary</mat-label>
+        <mat-select [(ngModel)]="employee.salary" name="salary">
+          <mat-option ></mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <label class="section-label"> Start Date</label>
+      <div class="date-options">
+        <mat-form-field appearance="outline">
+          <mat-label>Day</mat-label>
+          <mat-select [(ngModel)]="employee.startDay" name="startDay">
+            <mat-option ></mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Month</mat-label>
+          <mat-select [(ngModel)]="employee.startMonth" name="startMonth">
+            <mat-option ></mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Year</mat-label>
+          <mat-select [(ngModel)]="employee.startYear" name="startYear">
+            <mat-option ></mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+  
+      <mat-form-field appearance="outline" class="full-width">
+        <textarea matInput placeholder="Notes" [(ngModel)]="employee.notes" name="notes"></textarea>
+      </mat-form-field>
+  
+      <div class="form-actions">
+        <button mat-stroked-button color="warn">Cancel</button>
+        <button mat-raised-button color="primary">Submit</button>
+        <button mat-stroked-button>Reset</button>
+      </div>
+ 
+    </form>
+  </div>
+  
