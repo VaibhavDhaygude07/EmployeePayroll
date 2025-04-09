@@ -1,4 +1,6 @@
 .dashboard-container {
+  max-width: 1100px; 
+  margin: 0 auto;
   padding: 24px;
 
   .app-bar {
@@ -9,9 +11,10 @@
     background-color: white;
 
     .logo {
-      width: 40px;
-      height: 40px;
+      height: 40px;  
+      width: auto;   
     }
+    
 
     .logo-text {
       font-family: 'Arial', sans-serif;
@@ -30,11 +33,12 @@
       font-size: 18px;
     }
   }
+
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
 
     h2 {
       font-weight: 600;
@@ -46,20 +50,18 @@
       align-items: center;
 
       .search-field {
-        width: 250px;
+        width: 220px;
         background-color: white;
-        border-radius: 12px;
+        border-radius: 10px;
       }
 
       .add-user-btn {
-        border-radius: 12px;
-        background-color: #8bc34a; // Match green tone
+        border-radius: 10px;
+        background-color: #8bc34a;
         color: white;
-
         mat-icon {
-          margin-right: 8px;
+          margin-right: 6px;
         }
-
         &:hover {
           background-color: #7cb342;
         }
@@ -69,16 +71,26 @@
 
   .employee-table {
     width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+    font-size: 14px;
 
     th {
       background-color: #37474f;
       color: white;
       font-weight: 600;
+      padding: 10px 8px;
+    }
+
+    td {
+      padding: 8px 8px;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: middle;
     }
 
     .profile-img {
-      height: 40px;
-      width: 40px;
+      height: 36px;
+      width: 36px;
       border-radius: 50%;
       object-fit: cover;
     }
@@ -86,12 +98,16 @@
     .badge {
       background-color: #e6f4ea;
       color: #388e3c;
-      padding: 4px 10px;
-      border-radius: 12px;
-      margin-right: 5px;
-      font-size: 12px;
+      padding: 3px 8px;
+      border-radius: 10px;
+      margin-right: 4px;
+      font-size: 11px;
       font-weight: 500;
       display: inline-block;
+    }
+
+    button[mat-icon-button] {
+      margin: 0 4px;
     }
   }
 }

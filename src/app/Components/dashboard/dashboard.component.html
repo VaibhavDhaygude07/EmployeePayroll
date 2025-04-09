@@ -1,94 +1,97 @@
-<div class="dashboard-container">
-  <div class="app-bar">
-    <img class="logo" src="" alt="Employee Payroll Logo" />
-    <div class="logo-text">
-      <span class="emp-title-green">EMPLOYEE</span><br />
-      <span class="emp-title-dark">PAYROLL</span>
+  <div class="dashboard-container">
+    <div class="app-bar">
+      <img class="logo" src="assets/logo.svg" alt=" Logo" />
+
+      <div class="logo-text">
+        <span class="emp-title-green">EMPLOYEE</span><br />
+        <span class="emp-title-dark">PAYROLL</span>
+      </div>
     </div>
-  </div>
-  <div class="header">
-    <h2>Employee Details</h2>
+    <div class="header">
+      <h2>Employee Details</h2>
 
-    <div class="header-actions">
-      <mat-form-field class="search-field" appearance="outline">
-        <mat-label>Search</mat-label>
-       
-         <input
-  matInput
-  [(ngModel)]="searchText"
-  (ngModelChange)="filterEmployees()"
-  placeholder="Search employee"
-/>
+      <div class="header-actions">
+        <mat-form-field class="search-field" appearance="outline">
+          <mat-label>Search</mat-label>
+        
+          <input
+    matInput
+    [(ngModel)]="searchText"
+    (ngModelChange)="filterEmployees()"
+    placeholder="Search employee"
+  />
 
-        <button mat-icon-button matSuffix>
-          <mat-icon>search</mat-icon>
+          <button mat-icon-button matSuffix>
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" class="add-user-btn" (click)="goToAddUser()">
+          <mat-icon>add</mat-icon>
+          Add User
         </button>
-      </mat-form-field>
-
-      <button mat-raised-button color="primary" class="add-user-btn">
-        <mat-icon>add</mat-icon>
-        Add User
-      </button>
+      </div>
     </div>
-  </div>
 
-  <table mat-table [dataSource]="filteredEmployees" class="mat-elevation-z8 employee-table">
-
-   
-    <ng-container matColumnDef="profile">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let employee">
-        <img class="profile-img" [src]="employee.profilePic" alt="profile" />
-      </td>
-    </ng-container>
-
-   
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> NAME </th>
-      <td mat-cell *matCellDef="let employee"> {{employee.name}} </td>
-    </ng-container>
-
-
-    <ng-container matColumnDef="gender">
-      <th mat-header-cell *matHeaderCellDef> GENDER </th>
-      <td mat-cell *matCellDef="let employee"> {{employee.gender}} </td>
-    </ng-container>
-
- 
-    <ng-container matColumnDef="departments">
-      <th mat-header-cell *matHeaderCellDef> DEPARTMENT </th>
-      <td mat-cell *matCellDef="let employee">
-        <span class="badge" *ngFor="let dept of employee.departments">{{dept}}</span>
-      </td>
-    </ng-container>
+    <table mat-table [dataSource]="filteredEmployees" class="mat-elevation-z8 employee-table">
 
     
-    <ng-container matColumnDef="salary">
-      <th mat-header-cell *matHeaderCellDef> SALARY </th>
-      <td mat-cell *matCellDef="let employee"> ₹{{employee.salary}} </td>
-    </ng-container>
-
-   
-    <ng-container matColumnDef="startDate">
-      <th mat-header-cell *matHeaderCellDef> START DATE </th>
-      <td mat-cell *matCellDef="let employee"> {{employee.startDate | date:'dd MMM yyyy'}} </td>
-    </ng-container>
-
-    <!-- Actions -->
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef> ACTIONS </th>
-      <td mat-cell *matCellDef="let employee">
-        <button mat-icon-button color="accent">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button color="warn">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="profile">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let employee">
+          <img class="profile-img" [src]="employee.profilePic" alt="profile" />
+        </td>
+      </ng-container>
 
     
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-</div>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> NAME </th>
+        <td mat-cell *matCellDef="let employee"> {{employee.name}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="gender">
+        <th mat-header-cell *matHeaderCellDef> GENDER </th>
+        <td mat-cell *matCellDef="let employee"> {{employee.gender}} </td>
+      </ng-container>
+
+  
+      <ng-container matColumnDef="departments">
+        <th mat-header-cell *matHeaderCellDef> DEPARTMENT </th>
+        <td mat-cell *matCellDef="let employee">
+          <span class="badge" *ngFor="let dept of employee.departments">{{dept}}</span>
+        </td>
+      </ng-container>
+
+      
+      <ng-container matColumnDef="salary">
+        <th mat-header-cell *matHeaderCellDef> SALARY </th>
+        <td mat-cell *matCellDef="let employee"> ₹{{employee.salary}} </td>
+      </ng-container>
+
+    
+      <ng-container matColumnDef="startDate">
+        <th mat-header-cell *matHeaderCellDef> START DATE </th>
+        <td mat-cell *matCellDef="let employee"> {{employee.startDate | date:'dd MMM yyyy'}} </td>
+      </ng-container>
+
+      <!-- Actions -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> ACTIONS </th>
+        <td mat-cell *matCellDef="let employee">
+          <button mat-icon-button color="accent">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteEmployee(employee.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+          
+          
+        </td>
+      </ng-container>
+
+      <!-- <router-outlet></router-outlet> -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>

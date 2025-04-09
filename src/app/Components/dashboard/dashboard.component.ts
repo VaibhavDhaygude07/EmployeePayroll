@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { EmployeeService } from '../../Services/Employee/employee.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,35 +11,8 @@ import { Component } from '@angular/core';
 })
 export class DashboardComponent {
   searchText: string = '';
-
-  employees = [
-    {
-      name: 'Sharon Smith',
-      gender: 'Female',
-      departments: ['Sales', 'HR', 'Finance'],
-      salary: '₹ 10,000',
-      startDate: '29 Oct 2019',
-      profilePic: 'https://randomuser.me/api/portraits/women/44.jpg'
-    },
-    {
-      name: 'Mohammad  Shaikh',
-      gender: 'Male',
-      departments: ['Sales', 'HR', 'Finance'],
-      salary: '₹ 12,000',
-      startDate: '01 Jan 2020',
-      profilePic: 'https://randomuser.me/api/portraits/men/46.jpg'
-    },
-    {
-      name: 'Jason Johnson',
-      gender: 'Male',
-      departments: ['Sales', 'HR', 'Finance'],
-      salary: '₹ 11,500',
-      startDate: '15 Mar 2020',
-      profilePic: 'https://randomuser.me/api/portraits/men/52.jpg'
-    }
-  ];
-
-  filteredEmployees = [...this.employees];
+  employees: any[] = [];
+  filteredEmployees: any[] = [];
 
   displayedColumns: string[] = [
     'profile',
@@ -48,9 +24,46 @@ export class DashboardComponent {
     'actions'
   ];
 
+  constructor(private router: Router, private employeeService: EmployeeService) {}
+
   ngOnInit(): void {
-    this.filterEmployees();
+    this.getAllEmployees();
   }
+
+  getAllEmployees(): void {
+    this.employeeService.getAllEmployees().subscribe(
+      (res: any) => {
+        this.employees = res.map((emp: any) => ({
+          id: emp.id,
+          name: emp.name,
+          gender: emp.gender,
+          departments: emp.department?.split(',') || [],
+          salary: `₹ ${emp.salary}`,
+          startDate: new Date(emp.startDate).toLocaleDateString(),
+          profilePic: emp.imageUrl || 'https://randomuser.me/api/portraits/lego/1.jpg'
+        }));
+        this.filteredEmployees = [...this.employees];
+      },
+      (err) => {
+        console.error('Error fetching employees:', err);
+      }
+
+    );
+  }
+
+  deleteEmployee(id: number): void {
+    this.employeeService.deleteEmployee(id).subscribe(
+      () => {
+        alert('Employee deleted successfully ');
+        this.getAllEmployees();
+      },
+      (err: any) => {
+        console.error('Error deleting employee:', err);
+        alert('Error deleting employee ');
+      }
+    );
+  }
+  
 
   filterEmployees(): void {
     const search = this.searchText.trim().toLowerCase();
@@ -62,5 +75,9 @@ export class DashboardComponent {
         employee.name.toLowerCase().includes(search)
       );
     }
+  }
+
+  goToAddUser(): void {
+    this.router.navigate(['/add-employee']);
   }
 }

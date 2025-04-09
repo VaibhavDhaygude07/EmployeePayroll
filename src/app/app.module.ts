@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
 import { AppRoutingModule } from './app-routing.module';
 import { MatRadioModule } from '@angular/material/radio';
 import { AppComponent } from './app.component';
@@ -21,6 +23,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { EmployeeFormComponent } from './Components/employee-form/employee-form.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -32,6 +35,7 @@ import { EmployeeFormComponent } from './Components/employee-form/employee-form.
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MatCheckboxModule,
     FormsModule,
     MatRadioModule,
     MatToolbarModule,
@@ -47,7 +51,8 @@ import { EmployeeFormComponent } from './Components/employee-form/employee-form.
     MatDialogModule,
     MatSnackBarModule,
     MatChipsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    HttpClientModule
   ],
   providers: [
     provideClientHydration(withEventReplay())
