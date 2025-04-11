@@ -1,88 +1,103 @@
-  <div class="form-wrapper">
-    <div class="form-container">
+<div class="form-wrapper">
+  <div class="form-container">
+    <!-- HEADER SECTION -->
+     <!-- HEADER SECTION -->
+    <div class="form-header" (click)="navigateToDashboard()" style="cursor: pointer;">
       <img class="logo" src="assets/Logo1.png" alt="Logo" />
       <div class="logo-text">
-        <span class="emp-title-green">EMPLOYEE</span><br />
-        <span class="emp-title-dark">PAYROLL</span>
+        <div class="emp-title-green">EMPLOYEE</div>
+        <div class="emp-title-dark">PAYROLL</div>
+      </div>
+    </div>
+
+
+    <h2>{{ isEditMode ? 'Edit Employee' : 'Employee Payroll Form' }}</h2>
+
+    <form (ngSubmit)="onSubmit()" #employeeForm="ngForm">
+      <mat-form-field appearance="outline" class="full-width">
+        <input matInput placeholder="Name*" [(ngModel)]="employee.name" name="name" required minlength="3" #name="ngModel" />
+        <mat-error *ngIf="name.invalid && name.touched">
+          Name is required and must be at least 3 characters.
+        </mat-error>
+      </mat-form-field>
+
+      <label class="section-label">Profile Image</label>
+      <mat-radio-group
+        class="profile-options" [(ngModel)]="employee.profileImage" name="profileImage" required #profileImage="ngModel">
+        <mat-radio-button *ngFor="let img of profileImages" [value]="img">
+          <img [src]="img" alt="profile" />
+        </mat-radio-button>
+      </mat-radio-group>
+      <mat-error *ngIf="profileImage.invalid && profileImage.touched">Please select a profile image.</mat-error>
+
+      <label class="section-label">Gender</label>
+      <mat-radio-group class="gender-options" [(ngModel)]="employee.gender"  name="gender" required #gender="ngModel" >
+        <mat-radio-button value="Male">Male</mat-radio-button>
+        <mat-radio-button value="Female">Female</mat-radio-button>
+      </mat-radio-group>
+      <mat-error *ngIf="gender.invalid && gender.touched">Gender is required.</mat-error>
+
+      <label class="section-label">Department</label>
+      <div class="dept-options">
+        <mat-checkbox  *ngFor="let dept of departments"  [(ngModel)]="employee.departments[dept]"  [ngModelOptions]="{standalone: true}" >
+          {{ dept }}
+        </mat-checkbox>
       </div>
 
-      <h2>Employee Payroll Form</h2>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Salary</mat-label>
+        <mat-select [(ngModel)]="employee.salary" name="salary" required #salary="ngModel">
+          <mat-option *ngFor="let salary of salaryOptions" [value]="salary">
+            ₹{{ salary / 1000 }}k
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="salary.invalid && salary.touched">Salary is required.</mat-error>
+      </mat-form-field>
 
-      
-      <form (ngSubmit)="onSubmit()" #employeeForm="ngForm">
-        <mat-form-field appearance="outline" class="full-width">
-          <input matInput placeholder="Name*" [(ngModel)]="employee.name" name="name" required />
-        </mat-form-field>
-
-        <label class="section-label">Profile Image</label>
-        <mat-radio-group class="profile-options" [(ngModel)]="employee.profileImage" name="profileImage">
-          <mat-radio-button *ngFor="let img of profileImages" [value]="img">
-            <img [src]="img" alt="profile" />
-          </mat-radio-button>
-        </mat-radio-group>
-
-        <label class="section-label">Gender</label>
-        <mat-radio-group class="gender-options" [(ngModel)]="employee.gender" name="gender">
-          <mat-radio-button value="Male">Male</mat-radio-button>
-          <mat-radio-button value="Female">Female</mat-radio-button>
-        </mat-radio-group>
-
-        <label class="section-label">Department</label>
-        <div class="dept-options">
-          <mat-checkbox *ngFor="let dept of departments" [(ngModel)]="employee.departments[dept]" [name]="dept">
-            {{ dept }}
-          </mat-checkbox>
-        </div>
-
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Salary</mat-label>
-          <mat-select [(ngModel)]="employee.salary" name="salary">
-            <mat-option *ngFor="let salary of salaryOptions" [value]="salary">
-              ₹{{ salary / 1000 }}k
-            </mat-option>
+      <label class="section-label">Start Date</label>
+      <div class="date-options">
+        <mat-form-field appearance="outline">
+          <mat-label>Day</mat-label>
+          <mat-select [(ngModel)]="employee.startDay" name="startDay"  (selectionChange)="updateDate()"  required  #startDay="ngModel">
+            <mat-option *ngFor="let day of days" [value]="day">{{ day }}</mat-option>
           </mat-select>
+          <mat-error *ngIf="startDay.invalid && startDay.touched">Day is required.</mat-error>
         </mat-form-field>
-        
+    
+        <mat-form-field appearance="outline">
+          <mat-label>Month</mat-label>
+          <mat-select [(ngModel)]="employee.startMonth" name="startMonth" (selectionChange)="updateDate()" required #startMonth="ngModel">
+            <mat-option *ngFor="let month of months" [value]="month">{{ month }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="startMonth.invalid && startMonth.touched">Month is required.</mat-error>
+        </mat-form-field>
+    
+        <mat-form-field appearance="outline">
+          <mat-label>Year</mat-label>
+          <mat-select [(ngModel)]="employee.startYear"name="startYear" (selectionChange)="updateDate()" required #startYear="ngModel">
+            <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="startYear.invalid && startYear.touched">Year is required.</mat-error>
+        </mat-form-field>
+      </div>
 
-        <label class="section-label">Start Date</label>
-        <div class="date-options">
-          <mat-form-field appearance="outline">
-            <mat-label>Day</mat-label>
-            <mat-select [(ngModel)]="employee.startDay" name="startDay">
-              <mat-option *ngFor="let day of days" [value]="day">{{ day }}</mat-option>
-            </mat-select>
-          </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <textarea matInput placeholder="Notes" [(ngModel)]="employee.notes" name="notes"></textarea>
+      </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Month</mat-label>
-            <mat-select [(ngModel)]="employee.startMonth" name="startMonth">
-              <mat-option *ngFor="let month of months" [value]="month">{{ month }}</mat-option>
-            </mat-select>
-          </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Year</mat-label>
-            <mat-select [(ngModel)]="employee.startYear" name="startYear">
-              <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
-            </mat-select>
-          </mat-form-field>
+      <div class="form-actions-container">
+        <div class="cancel-button">
+          <button mat-stroked-button color="warn" type="button" (click)="onCancel()">Cancel</button>
         </div>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <textarea matInput placeholder="Notes" [(ngModel)]="employee.notes" name="notes"></textarea>
-        </mat-form-field>
-
-      
-        <div class="form-actions-container">
-          <div class="cancel-button">
-            <button mat-stroked-button color="warn" type="button" (click)="onCancel()">Cancel</button>
-          </div>
-
-          <div class="submit-reset-group">
-            <button mat-raised-button color="primary" type="submit">Submit</button>
-            <button mat-stroked-butt  on type="button" (click)="onReset()">Reset</button>
-          </div>
+        <div class="submit-reset-group">
+          <button mat-raised-button color="primary" type="submit">
+            {{ isEditMode ? 'Update' : 'Submit' }}
+          </button>
+          <button mat-stroked-button type="button" (click)="onReset()">Reset</button>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
+</div>

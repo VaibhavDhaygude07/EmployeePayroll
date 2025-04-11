@@ -1,6 +1,7 @@
+
 import { Component } from '@angular/core';
 import { EmployeeService } from '../../Services/Employee/employee.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
@@ -11,7 +12,8 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
   styleUrl: './employee-form.component.scss'
 })
 export class EmployeeFormComponent {
-  
+  isEditMode: boolean = false;
+
   employee: any = {
     name: '',
     profileImage: '',
@@ -23,23 +25,57 @@ export class EmployeeFormComponent {
     startYear: '',
     notes: ''
   };
-
   profileImages = [
     'https://randomuser.me/api/portraits/women/44.jpg',
     'https://randomuser.me/api/portraits/men/46.jpg',
     'https://randomuser.me/api/portraits/men/52.jpg',
     'https://randomuser.me/api/portraits/men/81.jpg'
   ];
-
   departments = ['HR', 'Sales', 'Finance', 'Engineer', 'Others'];
   salaryOptions = [20000, 30000, 40000, 50000];
-
-  days = Array.from({ length: 31 }, (_, i) => i + 1);
+  days = Array.from({ length: 31 }, (_, i) => i+1);
   months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  years = [2020, 2021, 2022, 2023, 2024, 2025];
-employeeForm: any;
+  years: number[] = Array.from({ length: 30 }, (_, i) => 2000 + i);
 
-  constructor(private employeeService: EmployeeService, private router: Router) {}
+
+    editId: number | null = null;
+
+    constructor(
+      private employeeService: EmployeeService,
+      private router: Router,
+      private route: ActivatedRoute
+    ) {}
+
+  ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.isEditMode = true;
+      this.employeeService.getEmployeeById(+id).subscribe((emp: any) => {
+
+        const departmentsArray = emp.department.split(',');
+        const departmentsObject: any = {};
+        this.departments.forEach(dept => {
+          departmentsObject[dept] = departmentsArray.includes(dept);
+        });
+
+        const date = new Date(emp.startDate);
+
+        this.employee = {
+          name: emp.name,
+          profileImage: emp.imageUrl,
+          gender: emp.gender,
+          departments: departmentsObject,
+          salary: emp.salary,
+          startDay: date.getDate(),
+          startMonth: this.months[date.getMonth()],
+          startYear: date.getFullYear(),
+          notes: emp.notes
+        };
+
+        this.editId = emp.id;
+      });
+    }
+  }
 
   onSubmit() {
     const departmentArray = Object.keys(this.employee.departments).filter(
@@ -60,36 +96,58 @@ employeeForm: any;
       notes: this.employee.notes
     };
 
-    console.log('Data being sent to API:', employeeData);
-
-    this.employeeService.addEmployee(employeeData).subscribe(
-      (res: any) => {
-        console.log('Employee added successfully', res);
-        this.router.navigate(['/dashboard']);
-      },
-      (err: any) => {
-        console.error('Error adding employee', err);
-        alert('Something went wrong!');
-      }
-    );
+    if (this.editId !== null) {
+      this.employeeService.updateEmployee(this.editId, employeeData).subscribe(
+        res => {
+          console.log('Employee updated successfully', res);
+          this.router.navigate(['/dashboard']);
+        },
+        err => {
+          console.error('Error updating employee', err);
+          alert('Something went wrong while updating!');
+        }
+      );
+    } else {
+      this.employeeService.addEmployee(employeeData).subscribe(
+        res => {
+          console.log('Employee added successfully', res);
+          this.router.navigate(['/dashboard']);
+        },
+        err => {
+          console.error('Error adding employee', err);
+          alert('Something went wrong while adding!');
+        }
+      );
+    }
   }
-
-  onReset() {
+  onReset(): void {
     this.employee = {
       name: '',
       profileImage: '',
       gender: '',
       departments: {},
       salary: '',
-      startDay: '',
-      startMonth: '',
-      startYear: '',
+      startDate: new Date(),
       notes: ''
     };
   }
 
-  onCancel(form?: NgForm) {
-    if (form) form.resetForm();
+  onCancel(): void {
+    this.router.navigate(['/dashboard']);
+  }
+
+  updateDate(): void {
+    if (this.employee.startDay && this.employee.startMonth && this.employee.startYear) {
+      const monthIndex = this.months.indexOf(this.employee.startMonth);
+      this.employee.startDate = new Date(
+        this.employee.startYear,
+        monthIndex,
+        this.employee.startDay
+      );
+    } 
+  }
+
+  navigateToDashboard(): void {
     this.router.navigate(['/dashboard']);
   }
   

@@ -51,15 +51,24 @@ export class DashboardComponent {
     );
   }
 
+
+  goToAddUser(): void {
+    this.router.navigate(['/add-employee'], { state: { isEditMode: false } });
+  }
+  
+  editEmployee(id: number): void {
+    this.router.navigate(['/add-employee', id]);
+  }
+
   deleteEmployee(id: number): void {
     this.employeeService.deleteEmployee(id).subscribe(
       () => {
-        alert('Employee deleted successfully ');
+       
         this.getAllEmployees();
       },
       (err: any) => {
         console.error('Error deleting employee:', err);
-        alert('Error deleting employee ');
+      
       }
     );
   }
@@ -77,7 +86,5 @@ export class DashboardComponent {
     }
   }
 
-  goToAddUser(): void {
-    this.router.navigate(['/add-employee']);
-  }
+  
 }

@@ -37,6 +37,25 @@ export class EmployeeService {
     };
     return this.httpService.getService('https://localhost:7273/api/Employees');
   }
+  getEmployeeById(id: any) {
+    let header = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.httpService.getService(`https://localhost:7273/api/Employees/${id}`);
+  }
+
+  updateEmployee(id: number, reqData: any) {
+    let header = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.httpService.putService(`https://localhost:7273/api/Employees/${id}`, reqData);
+  }
+  
+
 
   deleteEmployee(id: number) {
     let header = {

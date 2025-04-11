@@ -17,6 +17,10 @@ export class HttpService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.get(url, { headers });
   }
+  putService(url: string, data: any): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put(url, data, { headers });
+  }
   deleteService(url: string): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.delete(url, { headers });

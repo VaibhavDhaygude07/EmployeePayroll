@@ -4,10 +4,10 @@
   import { EmployeeFormComponent } from './Components/employee-form/employee-form.component';
 
   const routes: Routes = [
- 
+    
 { path: 'dashboard', component: DashboardComponent },
-{ path: 'add-employee', component: EmployeeFormComponent }
-
+{ path: 'add-employee', component: EmployeeFormComponent },
+{ path: 'add-employee/:id', component: EmployeeFormComponent }
   ];
 
   @NgModule({
